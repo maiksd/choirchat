@@ -6,7 +6,9 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const url_prefix = process.env.URL_PREFIX ? process.env.URL_PREFIX : '';
+
+var url_prefix = process.env.URL_PREFIX;
+if(url_prefix) url_prefix = '';
 
 app.get(url_prefix+'/socket.io/socket.io.js', function(req, res) {
     res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
