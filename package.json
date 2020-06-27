@@ -1,0 +1,17 @@
+{
+  "name": "choirchat",
+  "version": "1.0.0",
+  "description": "Chat for live choir rehearsals",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Maik Musall <maik@musall.de>",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "socket.io": "^2.3.0"
+  }
+}
