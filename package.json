@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "author": "Maik Musall <maik@musall.de>",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/maiksd/choirchat.git"
