@@ -20,12 +20,13 @@
     <ul id="messages"></ul>
     <form action="/" method="POST" id="chatForm">
       <input id="txt" autocomplete="off" autofocus="on" placeholder="hier schreiben..." /><button>Senden</button>
-      <!-- TODO oninput="isTyping()" -->
     </form>
     <script>
-            var socket = io.connect('<%=process.env.SOCKET_URL%>');
-            // TODO: somehow inform user if chat server has gone down
-            // TODO auto-scroll content
+            var socket = io.connect('<%=process.env.SOCKET_URL%>', {
+              //path: '<%=process.env.URL_PREFIX%>/socket.io',
+              path: '/socket.io',
+              transports: ['websocket']
+            });
 
             // submit text message without reload/refresh the page
             $('form').submit(function(e){

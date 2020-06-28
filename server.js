@@ -14,6 +14,12 @@ app.get(url_prefix+'/socket.io/socket.io.js', function(req, res) {
     res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
 });
 
+/*
+app.get(url_prefix+'/socket.io/socket.io.js.map', function(req, res) {
+    res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js.map');
+});
+*/
+
 app.get(url_prefix+'/jquery/jquery.js', function(req, res) {
     res.sendFile(__dirname + '/node_modules/jquery/dist/jquery.min.js');
 });
