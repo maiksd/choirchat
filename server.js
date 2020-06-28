@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+var user_count = 0;
 
 var url_prefix = process.env.URL_PREFIX;
 if(url_prefix) url_prefix = '';
@@ -33,16 +34,23 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('username', function(username) {
         socket.username = username;
+        user_count += 1;
         io.emit('is_online', '🔵 <i>' + socket.username + ' ist da</i>');
     });
 
     socket.on('disconnect', function(username) {
-        if(socket.username)     // prevent bogus messages if someone messes with the js debugger in her browser
+        if(socket.username ) {     // prevent bogus messages if someone messes with the js debugger in her browser
+            user_count -= 1;
             io.emit('is_online', '🔴 <i>' + socket.username + ' ist wieder weg</i>');
+        }
     })
 
     socket.on('chat_message', function(message) {
-        io.emit('chat_message', '<strong>' + socket.username + '</strong>: ' + message);
+        if( message == '/count' ) {
+            io.emit( 'chat_message', 'Aktuell sind ' + user_count + ' Benutzer im Chat.' );
+        } else {
+            io.emit('chat_message', '<strong>' + socket.username + '</strong>: ' + message);
+        }
     });
 
 });

@@ -3,6 +3,7 @@
 ## js
 
 - oninput="isTyping()"
+- commands like /count for number of current sockets
 
 ## ejs
 
