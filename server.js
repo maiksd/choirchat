@@ -10,21 +10,22 @@ const io = require('socket.io')(http);
 var url_prefix = process.env.URL_PREFIX;
 if(url_prefix) url_prefix = '';
 
-app.get(url_prefix+'/socket.io/socket.io.js', function(req, res) {
+app.get(url_prefix + '/socket.io/socket.io.js', function(req, res) {
     res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
 });
 
+// TODO is this needed?
 /*
-app.get(url_prefix+'/socket.io/socket.io.js.map', function(req, res) {
+app.get( url_prefix + '/socket.io/socket.io.js.map', function(req, res) {
     res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js.map');
 });
 */
 
-app.get(url_prefix+'/jquery/jquery.js', function(req, res) {
+app.get(url_prefix + '/jquery/jquery.js', function(req, res) {
     res.sendFile(__dirname + '/node_modules/jquery/dist/jquery.min.js');
 });
 
-app.get(url_prefix+'/', function(req, res) {
+app.get(url_prefix + '/', function(req, res) {
     res.render('index.ejs');
 });
 
