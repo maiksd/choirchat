@@ -124,6 +124,10 @@
 				$('#messages').append($('<li>').html(msg));
 				$('#messages li:last-child')[0].scrollIntoView();
 			});
+
+			window.onload = function() {
+				$('#chatForm input').focus();
+			};
 		</script>
 
 	</body>
