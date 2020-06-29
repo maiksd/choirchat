@@ -71,6 +71,8 @@ io.sockets.on('connection', function(socket) {
 			}
 			// use socket instead of io to return this only to the user who sent the command
 			socket.emit( 'chat_message', msg );
+		} else if( message == '/resetcount' ) {
+			viewer_count = 1;
 		} else if( message.startsWith( '/name ' ) ) {
 			var oldname = socket.username;
 			socket.username = message.substring( message.indexOf(' ')+1 );
