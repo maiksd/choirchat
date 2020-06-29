@@ -33,8 +33,8 @@ io.sockets.on('connection', function(socket) {
 
 	socket.emit( 'chat_message', '<div>Willkommen in der Probe!'
 	//	+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
-		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.<br/>'
-	//	+ ' Bitte gib dann zuerst deinen Namen ein.'
+		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.'
+		+ ' Bitte gib oben deinen Namen an, damit die anderen wissen, von wem der Text kommt.<br/>'
 		+ ' Fragen an Joachim bitte als solche formulieren, die können vom Moderator per Stimme weiter gereicht werden.'
 		+ '</div>' );
 
