@@ -18,17 +18,21 @@
 				width: 100%;
 			}
 
+			form input, form button {
+				color: #ebca69; background: rgb(84, 9, 109);
+				padding: 10px;
+			}
+
 			form input {
 				border-style: solid; border-color: rgb(84, 9, 109); border-width: 0px;
 				outline: none;
-				color: #ebca69; background:rgb(84, 9, 109); padding: 10px; margin-right: .5%;
+				margin-right: .5%;
 				width: calc(100% - 72px); float: left;
 			}
 
 			form button {
 				width: 60px; float: right;
-				color: #ebca69; background: rgb(84, 9, 109);
-				border: none; padding: 10px;
+				border: none;
 			}
 			
 			header {
@@ -101,8 +105,11 @@
 			// submit text message without reload/refresh the page
 			$('#chatForm').submit(function(e) {
 				e.preventDefault(); // prevents page reloading
-				socket.emit('chat_message', $('#txt').val());
-				$('#txt').val('');
+				var text = $('#txt').val();
+				if(text) {
+					$('#txt').val('');
+					socket.emit('chat_message', text);
+				}
 				return false;
 			});
 
@@ -110,11 +117,6 @@
 			socket.on('chat_message', function(msg){
 				$('#messages').append($('<li>').html(msg));
 				$('#messages li:last-child')[0].scrollIntoView();
-			});
-
-			// append text if someone is online
-			socket.on('is_online', function(username) {
-				$('#messages').append($('<li>').html(username));
 			});
 		</script>
 
