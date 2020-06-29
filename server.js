@@ -32,10 +32,10 @@ io.sockets.on('connection', function(socket) {
 	viewer_count += 1;
 
 	socket.emit( 'chat_message', '<div>Willkommen in der Probe!'
-		+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
-		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.'
-		+ ' Bitte gib dann zuerst deinen Namen ein.'
-		+ ' Fragen an Joachim bitte kennzeichnen, die können per Stimme weitergereicht werden.'
+	//	+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
+		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.<br/>'
+	//	+ ' Bitte gib dann zuerst deinen Namen ein.'
+		+ ' Fragen an Joachim bitte als solche formulieren, die können vom Moderator per Stimme weiter gereicht werden.'
 		+ '</div>' );
 
 	// user submits her name on logon, store username and send welcome messages

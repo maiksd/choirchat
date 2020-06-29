@@ -19,13 +19,13 @@
 			}
 
 			form input, form button {
-				color: #ebca69; background: rgb(84, 9, 109);
+				color: #ebca69;
 				padding: 10px;
+				background: #444;
 			}
 
 			form input {
-				border-style: solid; border-color: rgb(84, 9, 109); border-width: 0px;
-				outline: none;
+				border-style: solid; border-width: 0px; outline: none;
 				margin-right: .5%;
 				width: calc(100% - 72px); float: left;
 			}
@@ -34,7 +34,15 @@
 				width: 60px; float: right;
 				border: none;
 			}
-			
+
+			#chatForm input {
+				background: rgb(84, 9, 109);
+			}
+
+			#usernameForm input {
+				background: #444;
+			}
+
 			header {
 				text-align: center; padding: 5px;
 			}
@@ -69,6 +77,10 @@
 				<span style="color:rgb(224, 157, 246);">Vocanta</span>
 				<span style="color:#ebca69;">Chat</span>
 			</h3>
+			<form action="/" method="POST" id="usernameForm">
+				<input id="username" autocomplete="off" autofocus="on" placeholder="Wie heißt du?" />
+				<button title="klicken oder einfach Return drücken">Senden</button>
+			</form>
 		</header>
 
 		<main>
@@ -76,19 +88,14 @@
 		</main>
 
 		<footer>
-			<form action="/" method="POST" id="usernameForm">
-				<input id="username" autocomplete="off" autofocus="on" placeholder="Dein Name für den Chat?" />
-				<button>Senden</button>
-			</form>
-			<form action="/" method="POST" id="chatForm" style="display: none;">
+			<form action="/" method="POST" id="chatForm">
 				<input id="txt" autocomplete="off" autofocus="on" placeholder="hier schreiben..." />
-				<button>Senden</button>
+				<button title="klicken oder einfach Return drücken">Senden</button>
 			</form>
 		</footer>
 
 		<script>
 			var socket = io.connect('<%=process.env.SOCKET_URL%>', {
-				//path: '<%=process.env.URL_PREFIX%>/socket.io',
 				path: '/socket.io',
 				transports: ['websocket']
 			});
@@ -97,7 +104,6 @@
 				e.preventDefault(); // prevents page reloading
 				socket.emit('username', $('#username').val());
 				$('#usernameForm').hide();
-				$('#chatForm').show();
 				$('#chatForm input').focus();
 				return false;
 			});
