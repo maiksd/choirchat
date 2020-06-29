@@ -6,8 +6,10 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+
 var user_count = 0;
 
+// serve needed js files directly with no dependency on other mechanisms
 var url_prefix = process.env.URL_PREFIX;
 if(url_prefix) url_prefix = '';
 
@@ -23,9 +25,10 @@ app.get(url_prefix + '/', function(req, res) {
 	res.render('index.ejs');
 });
 
-
+// process socket communication
 io.sockets.on('connection', function(socket) {
 
+    // user submits her name on logon, store username and send welcome messages
 	socket.on('username', function(username) {
 		socket.username = username;
         if(!socket.username) socket.username='jemand';
@@ -37,6 +40,7 @@ io.sockets.on('connection', function(socket) {
         }
 	});
 
+    // user disconnects
 	socket.on('disconnect', function(username) {
 		if(socket.username ) {	 // prevent bogus messages if someone messes with the js debugger in her browser
 			user_count -= 1;
@@ -44,6 +48,7 @@ io.sockets.on('connection', function(socket) {
 		}
 	})
 
+    // user writes a message or command
 	socket.on('chat_message', function(message) {
 		if( message == '/count' ) {
 			// use socket instead of io to return this only to the user who sent the command
