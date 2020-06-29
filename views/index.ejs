@@ -1,56 +1,125 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Vocanta Chat</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font: 13px Helvetica, Arial; }
-        form { background: #fff; padding: 3px; position: fixed; bottom: 0; width: 100%; border-color:rgb(84, 9, 109); border-top-style: solid; border-top-width: 1px;}
-        form input { border-style: solid; border-color: rgb(84, 9, 109); border-width: 1px; padding: 10px; width: 85%; margin-right: .5%; }
-        form button { width: 60px; color: #ebca69; background: rgb(84, 9, 109); border: none; padding: 10px; margin-left: 2%; }
-        #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages li { padding: 5px 10px; }
-        #messages li:nth-child(odd) { background: #eee; }
-    </style>
-    <script src="<%=process.env.URL_PREFIX%>/socket.io/socket.io.js"></script>
-    <script src="<%=process.env.URL_PREFIX%>/jquery/jquery.js"></script>
-  </head>
+	<head>
+		<title>Vocanta Chat</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			* {
+				margin: 0; padding: 0; box-sizing: border-box;
+			}
+			body {
+				background: #333; font: 13px Helvetica, Arial;
+				display: flex; flex-direction: column;
+				height: 100vh; min-height: 100vh;
+			}
 
-  <body>
-    <ul id="messages"></ul>
-    <form action="/" method="POST" id="chatForm">
-      <input id="txt" autocomplete="off" autofocus="on" placeholder="hier schreiben..." /><button>Senden</button>
-    </form>
-    <script>
-            var socket = io.connect('<%=process.env.SOCKET_URL%>', {
-              //path: '<%=process.env.URL_PREFIX%>/socket.io',
-              path: '/socket.io',
-              transports: ['websocket']
-            });
+			form {
+				background: #333;
+				padding: 3px;
+				width: 100%;
+				flex: none;
+			}
 
-            // submit text message without reload/refresh the page
-            $('form').submit(function(e){
-                e.preventDefault(); // prevents page reloading
-                socket.emit('chat_message', $('#txt').val());
-                $('#txt').val('');
-                return false;
-            });
+			form input {
+				border-style: solid; border-color: rgb(84, 9, 109); border-width: 0px;
+				outline: none;
+				color: #ebca69; background:rgb(84, 9, 109); padding: 10px; margin-right: .5%;
+				width: calc(100% - 72px); float: left;
+			}
 
-            // append the chat text message
-            socket.on('chat_message', function(msg){
-                $('#messages').append($('<li>').html(msg));
-            });
+			form button {
+				width: 60px; float: right;
+				color: #ebca69; background: rgb(84, 9, 109);
+				border: none; padding: 10px;
+			}
+			
+			header {
+				text-align: center; padding: 5px;
+				flex: none;
+			}
 
-            // append text if someone is online
-            socket.on('is_online', function(username) {
-                $('#messages').append($('<li>').html(username));
-            });
+			footer {
+				flex: none;
+			}
 
-            // ask username
-            var username = prompt('Wer bist du?');
-            if(!username) username='jemand';
-            socket.emit('username', username);
+			main {
+				float:left; width:100%;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+				flex: auto;
+			}
 
-    </script>
-  </body>
+			#messages {
+				color: #ebca69; background: #282828;
+				list-style-type: none;
+				margin: 0; padding: 0;
+			}
+			#messages li div { padding: 5px 10px; }
+			#messages li:nth-child(odd) div { background: #2d2d2d; }
+			#messages li div.ich { text-align:right; color:rgb(224, 157, 246) }
+		</style>
+		<script src="<%=process.env.URL_PREFIX%>/socket.io/socket.io.js"></script>
+		<script src="<%=process.env.URL_PREFIX%>/jquery/jquery.js"></script>
+	</head>
+
+	<body>
+		<header>
+			<h3>
+				<span style="color:rgb(224, 157, 246);">Vocanta</span>
+				<span style="color:#ebca69;">Chat</span>
+			</h3>
+		</header>
+
+		<main>
+			<ul id="messages"></ul>
+		</main>
+
+		<footer>
+			<form action="/" method="POST" id="usernameForm">
+				<input id="username" autocomplete="off" autofocus="on" placeholder="Dein Name für den Chat?" />
+				<button>Senden</button>
+			</form>
+			<form action="/" method="POST" id="chatForm" style="display: none;">
+				<input id="txt" autocomplete="off" autofocus="on" placeholder="hier schreiben..." />
+				<button>Senden</button>
+			</form>
+		</footer>
+
+		<script>
+			var socket = io.connect('<%=process.env.SOCKET_URL%>', {
+				//path: '<%=process.env.URL_PREFIX%>/socket.io',
+				path: '/socket.io',
+				transports: ['websocket']
+			});
+
+			$('#usernameForm').submit(function(e) {
+				e.preventDefault(); // prevents page reloading
+				socket.emit('username', $('#username').val());
+				$('#usernameForm').hide();
+				$('#chatForm').show();
+				$('#chatForm input').focus();
+				return false;
+			});
+
+			// submit text message without reload/refresh the page
+			$('#chatForm').submit(function(e) {
+				e.preventDefault(); // prevents page reloading
+				socket.emit('chat_message', $('#txt').val());
+				$('#txt').val('');
+				return false;
+			});
+
+			// append the chat text message
+			socket.on('chat_message', function(msg){
+				$('#messages').append($('<li>').html(msg));
+				$('#messages li:last-child')[0].scrollIntoView();
+			});
+
+			// append text if someone is online
+			socket.on('is_online', function(username) {
+				$('#messages').append($('<li>').html(username));
+			});
+		</script>
+
+	</body>
 </html>

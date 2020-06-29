@@ -53,3 +53,12 @@ docker build -t choirchat . \
 ```
 
 Again, for the first run, the `rm` command obviously needs to be omitted.
+
+
+## Chat app usage
+
+On first run you will be asked to enter your name, which will then prepended on every message written. Own messages are aligned to the right, others to the left.
+
+There are two special commands, starting with a slash character:
+- `/count` : shows the number of users currently in the chat
+- `/name NewName` : allows to change a username, e.g. if the opportunity at start was missed.
