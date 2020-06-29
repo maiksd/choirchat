@@ -23,6 +23,7 @@ app.get(url_prefix + '/', function(req, res) {
 	res.render('index.ejs');
 });
 
+
 io.sockets.on('connection', function(socket) {
 
 	socket.on('username', function(username) {
@@ -30,6 +31,10 @@ io.sockets.on('connection', function(socket) {
         if(!socket.username) socket.username='jemand';
 		user_count += 1;
         io.emit('is_online', '<div>🟡 <i>' + socket.username + ' ist da</i></div>');
+        socket.emit( 'chat_message', '<div>Willkommen in der Probe, ' + username + '! Hier kannst du mit den anderen Online-Teilnehmern chatten. Fragen an Joachim kann Maik per Stimme weiterreichen.</div>' );
+        if( socket.username == 'jemand' ) {
+            socket.emit( 'chat_message', '<div>Du kannst deinen Namen nachträglich noch setzen, indem du "/name MeinName" schreibst.</div>' );
+        }
 	});
 
 	socket.on('disconnect', function(username) {
