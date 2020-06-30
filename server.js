@@ -30,6 +30,7 @@ app.get(url_prefix + '/', function(req, res) {
 io.sockets.on('connection', function(socket) {
 
 	viewer_count += 1;
+	socket.username = 'jemand' + viewer_count;
 
 	socket.emit( 'chat_message', '<div>Willkommen in der Probe!'
 	//	+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
@@ -42,7 +43,6 @@ io.sockets.on('connection', function(socket) {
 	socket.on('username', function(username) {
 		socket.username = username;
 		chatuser_count += 1;
-		if(!socket.username) socket.username='jemand';
 		io.emit('chat_message', '<div>🟡 <i>' + socket.username + ' ist da</i></div>');
 		if( socket.username == 'jemand' ) {
 			socket.emit( 'chat_message', '<div>Du kannst deinen Namen nachträglich noch setzen, indem du "/name MeinName" schreibst.</div>' );
