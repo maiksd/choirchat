@@ -16,6 +16,3 @@ Previously we used Jitsi or other video conference tools, but it turns out those
 One user manages the live streaming. This manager has a video+audio connection to the conductor's place, using Skype, FaceTime or even something with more audio quality if available, so that this content appears on the manager's computer. This video+audio feed is then integrated into the live stream to everyone else, along with the score. Participants connect to the live stream.
 
 I wanted this to be available on a private website, instead of on YouTube or Twitch, but that requires providing a way for participants to chat, since there is no other channel back to the manager or the conductor.
-
-
-TODO: screenshots of OBS, index.html and stuff

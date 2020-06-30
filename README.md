@@ -2,6 +2,14 @@
 
 Simple chat app for integration into live streamed choir online rehearsals
 
+## Features/Properties/Behaviour
+- node.js based, small and simple, designed to be run in a docker container
+- no authentication, users can just start chatting
+- users can enter their name (and optionally change it later)
+- viewer count
+- no persistent storage, no history beyond what's in the browser window, no logs
+- join/leave notifications
+
 
 ## Apache 2.4 VirtualHost directives
 
@@ -61,4 +69,5 @@ On first run you will be asked to enter your name, which will then prepended on 
 
 There are two special commands, starting with a slash character:
 - `/count` : shows the number of users currently in the chat
+- `/resetcount` : resets the `viewer_count` (sh, don't tell your users)
 - `/name NewName` : allows to change a username, e.g. if the opportunity at start was missed.

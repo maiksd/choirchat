@@ -1,12 +1,16 @@
 # TODO
 
-## js
+## General
+
+- move texts and colors into a properties file
+- multilanguage support
+- improve documentation
+
+## server.js
 
 - oninput="isTyping()"
-- commands like /count for number of current sockets
+- /help command
 
-## ejs
+## index.ejs
 
 - somehow inform user if chat server has gone down
-- auto-scroll content
-
