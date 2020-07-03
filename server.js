@@ -44,7 +44,7 @@ io.sockets.on('connection', function(socket) {
 	//	+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
 		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.'
 		+ ' Bitte gib oben deinen Namen an.<br/>'
-		+ ' Fragen an Joachim bitte als solche formulieren, die können vom Moderator per Stimme weiter gereicht werden.'
+	//	+ ' Fragen an Joachim bitte als solche formulieren, die können vom Moderator per Stimme weiter gereicht werden.'
 		+ '</div>' );
 
 	// user submits her name on logon, store username and send welcome messages
