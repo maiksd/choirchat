@@ -1,20 +1,28 @@
 'use strict';
 
 const PORT = 8081;
-const admin_secret = '8hAKgUpqdCFAjPpzsbsvt3';
 
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+//const cookieParser = require('cookie-parser');
+//app.use( cookieParser() );
+//var cookie_signing_secret = process.env.COOKIE_SIGNING_SECRET;
+//if(!cookie_signing_secret) cookie_signing_secret = 'kayituafw3ruakdmyeaty37juam';
+
 var viewer_count = 0;
 var chatuser_count = 0;
 var log_named_users = true;
 
+var admin_secret = process.env.ADMIN_SECRET;
+if( typeof admin_secret == 'undefined' || !admin_secret ) admin_secret = '8hAKgUpqdCFAjPpzsbsvt3';
+
 // serve needed js files directly with no dependency on other mechanisms
 var url_prefix = process.env.URL_PREFIX;
 if(url_prefix) url_prefix = '';
+console.log( 'url_prefix = "' + url_prefix + '"' );
 
 app.get(url_prefix + '/socket.io/socket.io.js', function(req, res) {
 	res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
@@ -44,7 +52,6 @@ io.sockets.on('connection', function(socket) {
 	//	+ ' <b>Damit du etwas hörst, musst du den Ton des Videostreams unten einschalten.</b>'
 		+ ' Hier kannst du mit den anderen Online-Teilnehmern chatten.'
 		+ ' Bitte gib oben deinen Namen an.<br/>'
-	//	+ ' Fragen an Joachim bitte als solche formulieren, die können vom Moderator per Stimme weiter gereicht werden.'
 		+ '</div>' );
 
 	// user submits her name on logon, store username and send welcome messages
@@ -79,6 +86,7 @@ io.sockets.on('connection', function(socket) {
 			var arg = message.substring( message.indexOf(' ')+1 );
 			if( arg == admin_secret ) {
 				socket.is_admin = true;
+				socket.emit('chat_message', '<div>Hello Admin</div>');
 			}
 		} else if( message == '/count' ) {
 			var msg;
@@ -95,13 +103,16 @@ io.sockets.on('connection', function(socket) {
 			if( socket.is_admin ) {
 				viewer_count = 1;
 				chatuser_count = 1;
+				socket.emit('chat_message', '<div>Counts reset</div>');
 			}
 		} else if( socket.is_admin && message.startsWith('/logconnects') ) {
 			var onoff = message.substring( message.indexOf(' ')+1 );
 			if( onoff == 'on' ) {
 				log_named_users = true;
+				socket.emit('chat_message', '<div>Log connects on</div>');
 			} else if( onoff == 'off' ) {
 				log_named_users = false;
+				socket.emit('chat_message', '<div>Log connects off</div>');
 			}
 		} else if( message.startsWith( '/name ' ) ) {
 			var oldname = socket.username;
@@ -112,7 +123,7 @@ io.sockets.on('connection', function(socket) {
 			socket.emit('chat_message', '<div>/count</div>');
 			if( socket.is_admin ) {
 				socket.emit('chat_message', '<div>/resetcount</div>');
-				socket.emit('chat_message', '<div>/logconnects on|off</div>');
+				socket.emit('chat_message', '<div>/logconnects on | off</div>');
 			}
 		} else {
 			socket.emit('chat_message', '<div class="ich">' + message + '</div>');  // use io.emit if all should get it including sender
