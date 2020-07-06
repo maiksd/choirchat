@@ -121,8 +121,14 @@
 
 			// append the chat text message
 			socket.on('chat_message', function(msg){
-				$('#messages').append($('<li>').html(msg));
-				$('#messages li:last-child')[0].scrollIntoView();
+				var ul = $('#messages');
+				ul.append($('<li>').html(msg));
+				
+				// scrollIntoView() has the side effect of scrolling the entire viewport,
+				// even if someone has manually pulled the video into view, intentionally
+				// leaving the chat outside the visible viewport.
+				//$('#messages li:last-child')[0].scrollIntoView({behavior: "smooth"});
+				$('main')[0].scrollTo({ left: 0, top: ul.height(),  behavior: 'smooth' });
 			});
 
 			window.onload = function() {
